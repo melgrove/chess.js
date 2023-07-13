@@ -540,8 +540,8 @@ export class Chess {
   private _castling: Record<Color, number> = { w: 0, b: 0 }
   private _positionCounts: Record<string, number> = {}
 
-  constructor(fen = DEFAULT_POSITION) {
-    this.load(fen)
+  constructor(fen = DEFAULT_POSITION, allowInvalidFen = false) {
+    this.load(fen, false, allowInvalidFen)
   }
 
   clear(keepHeaders = false) {
@@ -587,7 +587,7 @@ export class Chess {
     }
   }
 
-  load(fen: string, keepHeaders = false) {
+  load(fen: string, keepHeaders = false, allowInvalidFen = false) {
     let tokens = fen.split(/\s+/)
 
     // append commonly omitted fen tokens
@@ -599,7 +599,7 @@ export class Chess {
     tokens = fen.split(/\s+/)
 
     const { ok, error } = validateFen(fen)
-    if (!ok) {
+    if (!ok && !allowInvalidFen) {
       throw new Error(error)
     }
 
