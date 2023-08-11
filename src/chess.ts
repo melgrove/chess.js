@@ -2195,6 +2195,10 @@ export class Chess {
     return this._turn
   }
 
+  changeTurn() {
+    this._turn = swapColor(this._turn);
+  }
+
   board() {
     const output = []
     let row = []
